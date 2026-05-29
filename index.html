@@ -471,6 +471,61 @@
       margin-top: 10px;
     }
 
+    /* ── UV TOGGLE ── */
+    .uv-toggle-wrap { margin: 18px 0 0; }
+    .uv-toggle-row {
+      display: flex; align-items: center; justify-content: space-between;
+      background: white; border: 2px solid var(--border); border-radius: 14px;
+      padding: 14px 16px; transition: border-color 0.2s, background 0.2s;
+      cursor: pointer; gap: 12px;
+    }
+    .uv-toggle-row.active { border-color: var(--gold); background: #fffbf0; }
+    .uv-left { display: flex; align-items: center; gap: 12px; }
+    .uv-icon-wrap {
+      width: 42px; height: 42px; background: #fff3cd; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;
+    }
+    .uv-label { font-weight: 700; font-size: 0.88rem; color: var(--dark); }
+    .uv-desc { font-size: 0.72rem; color: var(--muted); margin-top: 2px; line-height: 1.4; }
+    .uv-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+    .uv-price-tag {
+      font-size: 0.78rem; font-weight: 700; color: var(--dark);
+      background: #f0f0f0; padding: 4px 10px; border-radius: 20px; white-space: nowrap;
+    }
+    .uv-toggle-row.active .uv-price-tag { background: var(--gold); }
+    .toggle-switch {
+      width: 42px; height: 24px; background: #ddd; border-radius: 12px;
+      position: relative; transition: background 0.2s; flex-shrink: 0;
+    }
+    .toggle-switch.on { background: var(--gold); }
+    .toggle-knob {
+      width: 20px; height: 20px; background: white; border-radius: 50%;
+      position: absolute; top: 2px; left: 2px; transition: left 0.2s;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.2);
+    }
+    .toggle-switch.on .toggle-knob { left: 20px; }
+    .uv-details {
+      display: none; background: #fffbf0; border: 1px solid #f0d980;
+      border-radius: 0 0 14px 14px; margin-top: -6px; padding: 14px 16px 16px;
+    }
+    .uv-details.show { display: block; }
+    .uv-detail-title { font-size: 0.78rem; font-weight: 700; color: var(--dark); margin-bottom: 10px; }
+    .uv-detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+    .uv-detail-item {
+      background: white; border-radius: 10px; padding: 10px 12px;
+      font-size: 0.72rem; color: var(--text); line-height: 1.5; border: 1px solid #f0e0a0;
+    }
+    .uv-detail-item strong { display: block; color: var(--dark); font-size: 0.75rem; margin-bottom: 2px; }
+    .uv-price-summary {
+      margin-top: 20px; background: white; border: 1.5px dashed var(--gold);
+      border-radius: 12px; padding: 14px 16px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    }
+    .uv-summary-label { font-size: 0.82rem; font-weight: 700; color: var(--dark); }
+    .uv-summary-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+    .uv-summary-price { font-family: 'Playfair Display', serif; font-size: 1.4rem; color: var(--dark); font-weight: 700; }
+    .uv-summary-was { font-size: 0.7rem; color: var(--muted); text-decoration: line-through; text-align: right; }
+
     /* ── FOOTER ── */
     footer {
       background: var(--dark);
@@ -540,13 +595,13 @@
       <text x="160" y="202" text-anchor="middle" font-family="Georgia, serif" font-size="7" fill="#ccc" letter-spacing="4">CLOTHING CO.</text>
     </svg>
     <div class="badge badge-tl">100% Cotton</div>
-    <div class="badge badge-br">₱299</div>
+    <div class="badge badge-br" id="heroPriceBadge">₱299</div>
   </div>
 
   <!-- Price -->
   <div class="price-pill">
     <span class="cur">₱</span>
-    <span class="amt">299</span>
+    <span class="amt" id="heroPriceAmt">299</span>
     <span class="lbl">suggested retail</span>
   </div>
 
@@ -628,6 +683,71 @@
     <div>
       <div class="pt-amount">₱299</div>
       <div class="pt-margin">+₱60 margin (~20%)</div>
+    </div>
+  </div>
+</section>
+
+<!-- UV PROTECTION -->
+<section class="section">
+  <div class="section-header">
+    <div class="section-icon">☀️</div>
+    <div>
+      <div class="section-title">UV Protection Add-on</div>
+      <div class="section-sub">Built for the Philippine sun</div>
+    </div>
+  </div>
+
+  <p style="font-size:0.85rem;color:var(--muted);line-height:1.7;margin-bottom:18px;">
+    The Philippines sits near the equator — UV index regularly hits 11+ (extreme). Our UV-treated tee uses a chemical fabric finish that blocks up to <strong>98% of UV rays</strong> (UPF 50+), protecting your skin without changing how the shirt looks or feels.
+  </p>
+
+  <div class="uv-toggle-wrap">
+    <div class="uv-toggle-row" id="uvRow" onclick="toggleUV()">
+      <div class="uv-left">
+        <div class="uv-icon-wrap">🛡️</div>
+        <div>
+          <div class="uv-label">UPF 50+ UV Protection</div>
+          <div class="uv-desc">Chemical UV-blocking finish · Lasts 30+ washes</div>
+        </div>
+      </div>
+      <div class="uv-right">
+        <div class="uv-price-tag" id="uvPriceTag">+₱70</div>
+        <div class="toggle-switch" id="uvSwitch"><div class="toggle-knob"></div></div>
+      </div>
+    </div>
+
+    <div class="uv-details" id="uvDetails">
+      <div class="uv-detail-title">What the UV upgrade includes:</div>
+      <div class="uv-detail-grid">
+        <div class="uv-detail-item">
+          <strong>🧪 UV-blocking finish</strong>
+          Tinosorb/Rayosan treatment applied at mill level — ₱30/garment (PH rate)
+        </div>
+        <div class="uv-detail-item">
+          <strong>🧵 Tighter weave fabric</strong>
+          Denser cotton construction reduces UV penetration — +₱15 material cost
+        </div>
+        <div class="uv-detail-item">
+          <strong>⚙️ Extra processing</strong>
+          Additional finishing step at the cut-and-sew stage — +₱10 labor
+        </div>
+        <div class="uv-detail-item">
+          <strong>🏷️ UPF 50+ label & tag</strong>
+          Certified rating label + updated QR product info — included
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Live price summary -->
+  <div class="uv-price-summary">
+    <div>
+      <div class="uv-summary-label" id="uvSummaryLabel">Standard Tee</div>
+      <div class="uv-summary-sub" id="uvSummarySub">Cost: ₱239 · Margin: ~20%</div>
+    </div>
+    <div style="text-align:right;">
+      <div class="uv-summary-was" id="uvSummaryWas"></div>
+      <div class="uv-summary-price" id="uvSummaryPrice">₱299</div>
     </div>
   </div>
 </section>
@@ -820,6 +940,43 @@
     btn.classList.add('active');
   }
 
+  let uvOn = false;
+  function toggleUV() {
+    uvOn = !uvOn;
+    const row = document.getElementById('uvRow');
+    const sw  = document.getElementById('uvSwitch');
+    const det = document.getElementById('uvDetails');
+    const tag = document.getElementById('uvPriceTag');
+    const lbl = document.getElementById('uvSummaryLabel');
+    const sub = document.getElementById('uvSummarySub');
+    const was = document.getElementById('uvSummaryWas');
+    const prc = document.getElementById('uvSummaryPrice');
+    const heroBadge = document.getElementById('heroPriceBadge');
+    const heroPill  = document.getElementById('heroPriceAmt');
+
+    row.classList.toggle('active', uvOn);
+    sw.classList.toggle('on', uvOn);
+    det.classList.toggle('show', uvOn);
+
+    if (uvOn) {
+      tag.textContent = '✓ Added';
+      lbl.textContent = 'UV Protection Tee (UPF 50+)';
+      sub.textContent = 'Cost: ₱294 · Margin: ~20%';
+      was.textContent = '₱299';
+      prc.textContent = '₱369';
+      if (heroBadge) heroBadge.textContent = '₱369';
+      if (heroPill)  heroPill.textContent  = '369';
+    } else {
+      tag.textContent = '+₱70';
+      lbl.textContent = 'Standard Tee';
+      sub.textContent = 'Cost: ₱239 · Margin: ~20%';
+      was.textContent = '';
+      prc.textContent = '₱299';
+      if (heroBadge) heroBadge.textContent = '₱299';
+      if (heroPill)  heroPill.textContent  = '299';
+    }
+  }
+
   function selectConsult(type) {
     document.getElementById('card-chat').classList.toggle('selected', type === 'chat');
     document.getElementById('card-call').classList.toggle('selected', type === 'call');
@@ -858,7 +1015,7 @@
     document.getElementById('callBtn').textContent = calling ? '🔴' : '📞';
     if (calling) {
       setTimeout(() => {
-        if (calling) document.getElementById('callStatus').textContent = 'Connected · Camille is on the line';
+        if (calling) document.getElementById('callStatus').textContent = 'Connected · Fernandez is on the line';
       }, 1800);
     }
   }
